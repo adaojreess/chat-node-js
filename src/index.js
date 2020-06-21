@@ -3,7 +3,7 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-var port = process.env.port || 3001;
+var port = process.env.PORT || 3001;
 
 var messages = [];
 
