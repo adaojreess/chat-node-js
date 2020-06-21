@@ -1,5 +1,5 @@
 const server = require('http').createServer();
-const io = require('socket.io')(server, { origins: process.env.ORIGIN });
+const io = require('socket.io')(server);
 
 var port = 3001;
 
