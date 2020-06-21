@@ -1,5 +1,5 @@
 const server = require('http').createServer();
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, { origins: process.env.ORIGIN });
 
 var port = 3001;
 
@@ -9,7 +9,7 @@ var messages = [];
 io.on('connection', socket => {
     console.log('Socket: ' + socket.id);
 
-    io.emit('messages', messages);
+    socket.emit('messages', messages);
 
     socket.on('send', message => {
         message.time = Date();
