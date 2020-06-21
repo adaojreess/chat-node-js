@@ -27,7 +27,7 @@ io.on('connection', socket => {
 });
 
 app.use('/', (req, res) => {
-    res.send('api inialized');
+    res.send('api initialized');
 });
 
 server.listen(port, () => console.log('Server is running: ' + port));
