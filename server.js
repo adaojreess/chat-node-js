@@ -13,6 +13,7 @@ app.set('view engine', 'html');
 app.use('/', (req, res) => {
     res.render('index.html');
 });
+
 var messages = [];
 
 io.on('connection', socket => {
@@ -25,13 +26,7 @@ io.on('connection', socket => {
         messages.push(message);
         io.emit('messages', messages);
     });
-
-    socket.on('delete', data => {
-        if (data.message.sender === data.sender) {
-            messages = messages.filter(message => message !== data.message);
-        }
-    });
 });
 
 
-server.listen(process.env.PORT || 3000, () => console.log('Server is running'));
+server.listen(process.env.PORT || 3000);

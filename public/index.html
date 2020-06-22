@@ -25,7 +25,7 @@
         var sender = '';
         var message = '';
 
-        var socket = io(API_URL);
+        var socket = io('https://app-chat-rt.herokuapp.com');
 
         socket.on('messages', messages => {
             $('.messages').html(messages.map(renderMessage));
