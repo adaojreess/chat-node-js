@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat com Socket.io</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="messages">
+
+    </div>
+    <form id="chat">
+        <input type="text" name="username" placeholder="Digite seu nome">
+        <input type="text" name="message"><button type="submit">Enviar</button>
+    </form>
+
+    <script type="text/javascript">
+        var sender = '';
+        var message = '';
+
+        var socket = io(API_URL);
+
+        socket.on('messages', messages => {
+            $('.messages').html(messages.map(renderMessage));
+        });
+
+        function renderMessage(message) {
+            var classMessage = message.sender === sender ? 'light' : 'darker';
+            var classTime = message.sender === sender ? "time-right" : "time-left";
+            var time = new Date(message.time);
+            console.log(time.getDate());
+            return `<div class=${classMessage}><p>${message.sender}: ${message.content}</ p>` +
+                `<br /><strong class="${classTime}">${time.getHours()}:${time.getMinutes()}</ strong>` +
+                `</ div>`;
+        }
+
+        $('#chat').submit(event => {
+            event.preventDefault();
+            sender = $('input[name=username]')[0].value;
+            message = $('input[name=message]')[0].value;
+
+            if (sender.length && message.length) {
+                var messageObject = {
+                    sender: sender,
+                    content: message
+                };
+
+                socket.emit('send', messageObject);
+            }
+        });
+    </script>
+</body>
+
+</html>
